@@ -25,7 +25,8 @@ const { conn, Country } = require('./src/db.js');
 conn.sync({ force: false }).then(() => {
   server.listen(3001, async () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
-    if (Country.findAll() === undefined){
+    const prueba = await Country.findAll()
+    if ( prueba.length === 0){
       await countriesToDb()
     }
   });

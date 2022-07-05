@@ -1,9 +1,10 @@
 const axios = require('axios');
 const { Country } = require('../db.js');
+const { API_URL } = process.env;
 
 async function countriesToDb() {
   try {
-    let response = await axios('https://restcountries.com/v3/all')
+    let response = await axios(API_URL)
     let data = await response.data
     let countries = await data?.map(e => {
       if (e.capital && e.cca3 && e.name.common && e.flags[0] && e.continents[0]) {
