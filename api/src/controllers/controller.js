@@ -39,24 +39,17 @@ async function getCountryByName (req,res,next) {
   - Debe traer solo los datos pedidos en la ruta de detalle de país
   - Incluir los datos de las actividades turísticas correspondientes */
 async function getCountryById(req, res, next) {
-  const { idPais } = req.params
+  const { idPais } = req.params;
 
   try {
-    const countryById = await Country.findByPk(idPais, {
+    const countryById = await Country.findByPk(idPais.toUpperCase(), {
       include: Activity
     });
-    const countryAndActivities = {
-      name: countryById.name,
-      id: countryById.id,
-      flags: countryById.flags,
-      continents: countryById.continents,
-      capital: countryById.capital,
-      subregion: countryById.subregion,
-      area: countryById.area,
-      population: countryById.population,
-      activities: countryById.activities,
+    if (countryById) {
+      res.json(countryById)
+    } else {
+      res.send('No se encuentra país asociado al ID ingresado')
     }
-    res.json(countryAndActivities)
   } catch (error) {
     next(error)
   }
