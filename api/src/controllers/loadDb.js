@@ -4,9 +4,8 @@ const { API_URL } = process.env;
 
 async function countriesToDb() {
   try {
-    let response = await axios(API_URL)
-    let data = await response.data
-    let countries = await data?.map(e => {
+    let response = await (axios(API_URL)).data
+    let countries = await response?.map(e => {
       if (e.capital && e.cca3 && e.name.common && e.flags[0] && e.continents[0]) {
         return {
           id: e.cca3,
@@ -21,7 +20,7 @@ async function countriesToDb() {
       }
     }
     )
-    let countriesFiltered = await countries.filter(c => c)
+    let countriesFiltered = await countries?.filter(c => c)
     await Country.bulkCreate(countriesFiltered)
     console.log('Se cargo info a DB');
   } catch (error) {

@@ -23,9 +23,6 @@ module.exports = (sequelize) => {
     temporada: {
       type: DataTypes.ENUM('Verano', 'Otoño', 'Invierno', 'Primavera'),
       allowNull: false,
-    },
-    paises: {
-      type: DataTypes.ARRAY(DataTypes.JSONB)
     }
   }, {
     timestamps: false
