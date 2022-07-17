@@ -4,14 +4,14 @@ const { API_URL } = process.env;
 
 async function countriesToDb() {
   try {
-    let response = await (axios(API_URL)).data
+    let response = (await axios(API_URL)).data
     let countries = await response?.map(e => {
-      if (e.capital && e.cca3 && e.name.common && e.flags[0] && e.continents[0]) {
+      if (e.capital && e.cca3 && e.name.common && e.flags[1] && e.region) {
         return {
           id: e.cca3,
           name: e.name.common,
-          flags: e.flags[0],
-          continents: e.continents[0],
+          flags: e.flags[1],
+          continents: e.region,
           capital: e.capital[0],
           subregion: e.subregion,
           area: e.area,

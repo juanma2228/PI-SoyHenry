@@ -4,11 +4,11 @@ module.exports = (sequelize) => {
 
   sequelize.define('activity', {
 
-    nombre: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dificultad: {
+    difficulty: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -16,12 +16,12 @@ module.exports = (sequelize) => {
         min: 1
       }
     },
-    duracion: {
+    duration: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    temporada: {
-      type: DataTypes.ENUM('Verano', 'Otoño', 'Invierno', 'Primavera'),
+    season: {
+      type: DataTypes.ARRAY(DataTypes.ENUM("Autumn","Winter","Spring","Summer")),
       allowNull: false,
     }
   }, {

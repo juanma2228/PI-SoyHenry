@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
 const { Country, Activity } = require('../db.js')
 
-/* 
+/*
 __GET /countries__:
 - En una primera instancia deberán traer todos los países desde restcountries y guardarlos en su propia base de datos y luego ya utilizarlos desde allí (Debe retonar sólo los datos necesarios para la ruta principal)
 - Obtener un listado de los paises. 
@@ -27,7 +27,7 @@ async function getCountryByName (req,res,next) {
       if (await getCountry.length > 0){
   
         res.json(getCountry)
-      } else res.send('El nombre no coincide con ningún país en la base de datos');
+      } else console.log('Name doesn\'t match with any country in the Data Base');
     }
   } catch (error) {
     next(error)
@@ -61,22 +61,20 @@ async function getCountryById(req, res, next) {
 
 async function postActivity(req,res,next) {
 
-  const {nombre, dificultad, duracion, temporada, countryID} = req.body
+  const {name, difficulty, duration, season, countryID} = req.body;
 
-  console.log(req.body);
-
-  const valdidateact = await Activity.findOne({
+  const valdidateAct = await Activity.findOne({
     where: {
-      nombre: nombre,
+      name: name,
     },
   });
 
-  if (!valdidateact) {
+  if (!valdidateAct) {
     const newActivity = await Activity.create({
-      nombre: nombre,
-      dificultad: dificultad,
-      duracion: duracion,
-      temporada: temporada,
+      name: name,
+      difficulty: difficulty,
+      duration: duration,
+      season: season,
     });
 
     const activity = await newActivity.addCountry(countryID);
@@ -84,7 +82,7 @@ async function postActivity(req,res,next) {
   return res.json(activity);
   }
 
-  const activity = await valdidateact.addCountry(countryID);
+  const activity = await valdidateAct.addCountry(countryID);
 
   res.json(activity);
 }
