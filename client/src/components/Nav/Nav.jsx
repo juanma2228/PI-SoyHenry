@@ -54,6 +54,16 @@ const Nav = () => {
               <button onClick={() => dispatch(getAllCountries())}> HOME </button>
             </Link>
           </>
+          <>
+          <Link to='/form'>
+            <button type="submit">CREATE ACTIVITY</button>
+          </Link>
+          </>
+          <>
+          <Link to='/'>
+            <button type="submit">EXIT</button>
+          </Link>
+          </>
           <div className='search-bar'>
             <form onSubmit={(e) => submitHandler(e)}>
               <input type='search'

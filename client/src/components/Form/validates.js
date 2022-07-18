@@ -2,7 +2,7 @@ export default function validate(input) {
 
   let errors = {};
 
-  const regExOnlyLet = /^[A-Za-z]+$/;
+  const regExOnlyLet = /^[a-zA-Z\s]*$/;
   const regExOnlyNum = /^[0-9]+$/;
 
   if (!input.name) {

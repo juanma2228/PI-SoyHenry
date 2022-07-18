@@ -19,18 +19,9 @@ const Form = () => {
     duration: '',
     difficulty: '',
     season: [],
-    countryID: []
+    countryID: [],
   });
 
-  const stateReset = () => {
-    setInput({
-      name: "",
-      difficulty: "",
-      duration: "",
-      season: "",
-      countryID: [],
-    });
-  };
 
   const [errors, setErrors] = useState({
     name: 'Name is required',
@@ -55,63 +46,72 @@ const Form = () => {
       [e.target.name]: e.target.value
     });
   }
-  const [countryName, setCountryName] = useState([]);
-  // let countryName = [];
 
-  const matchIdCountry = () => {
-    input.countryID?.map(e => {
-      for (let i = 0; i < countries.length; i++) {
-        if (countries[i].id === e) {
-          setCountryName([...countryName,{
-            name: countries[i].name,
-            id: countries[i].id
-          }])
-          return
-        }
+  const [countryName, setCountryName] = useState([]);
+
+  const matchIdCountry = (value) => {
+    countries?.map(c => {
+      if (c.id === value) {
+        setCountryName([
+          ...countryName,
+          c.name
+        ])
       }
     })
-  }
-  const unselectCountry =  (e) => {
-
-    const countFiltered = input.countryID.filter((c) => c !== e.target.value)
-
-     setInput({
-      ...input,
-      countryID: countFiltered
-    })
-    const nameFiltered = countryName.filter(c => c.id !== e.target.value)
-
-    setCountryName(nameFiltered)
   }
 
   const onChanSelHandCountId = (e) => {
     e.preventDefault()
 
-    if (input.countryID.includes(e.target.value)) return
+    if (input.countryID.includes(e.target.value) || !e.target.value) return
+    console.log(e.target.value);
+    setInput({
+      ...input,
+      countryID: [...input.countryID, e.target.value],
+    })
+
+    matchIdCountry(e.target.value)
+
+  }
+
+  const unselectCountry = async (e) => {
+
+    const nameFiltered = countryName.filter(c => c !== e.target.value)
+    setCountryName(nameFiltered)
+
+    const idMatch = await countries?.filter(c => {
+      if (c.name === e.target.value) return c.id
+    })
+
+    const countFiltered = input.countryID.filter((c) => c !== idMatch[0].id);
 
     setInput({
       ...input,
-      countryID: [...input.countryID, e.target.value]
+      countryID: countFiltered,
     })
-
-    matchIdCountry()
-
   }
-  /* function onClose(id) {
-    setCities(oldCities => oldCities.filter(c => c.id != id));
-  } */
 
-  const onChanSelHandSeason = (e) => {
-    if (input.season.includes(e.target.value)) return
+  const onChangeSeason = (e) => {
+
+    if (input.season.includes(e.target.value) || !e.target.value) return
     setInput({
       ...input,
       season: [...input.season, e.target.value]
     })
   }
 
+  const unselectSeason = (e) => {
+
+    setInput({
+      ...input,
+      season: input.season.filter(s => s !== e.target.value)
+    })
+  }
+  let formSubmited = document.getElementById("form")
+
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(input);
+
     let form = true;
 
     if (input["name"].length < 2) {
@@ -122,34 +122,29 @@ const Form = () => {
 
     if (form) {
       dispatch(createActivity(input))
-        .then(() => stateReset())
-        .then(() => alert("Activity added"));
+        .then(() => {
+          formSubmited.reset();
+          setCountryName([]);
+          setInput({
+            season:[]
+          })
+        })
+      alert("Activity added")
     } else {
       return alert("Please fill all the fields before creating a new activity");
     }
   };
+  useEffect(() => {
+
+  }, [formSubmited])
 
 
 
-  const clearAllSeasons = () => {
-    setInput({
-      ...input,
-      season: []
-    })
-  }
-
-  const clearAllCountries = () => {
-    setInput({
-      ...input,
-      countryID: []
-    })
-  }
 
 
   return (
     <div>
-      {console.log(input.countryID)}
-      <form onSubmit={e => submitForm(e)}>
+      <form onSubmit={e => submitForm(e)} id="form" >
         <div className='inputName'>
           <label>Enter a Name: </label>
           <input type="text"
@@ -189,25 +184,30 @@ const Form = () => {
           )}
         </div>
         <div className='inputSeason'>
-          <select name="season" id="season" size='6' onChange={onChanSelHandSeason} >
+          <select name="season" id="season" size='5' onClick={(e) => onChangeSeason(e)} >
             <optgroup label='Seasons'>
-              <option onClick={clearAllSeasons}>Clear Selection</option>
               <option value="Summer">Summer</option>
               <option value="Autumn">Autumn</option>
               <option value="Winter">Winter</option>
               <option value="Spring">Spring</option>
             </optgroup>
           </select>
+          {input.season?.map(el => {
+            return (
+              <div key={el}>
+                <p>{el}</p>
+                <button type='button' value={el} onClick={(e) => unselectSeason(e)} >X</button>
+              </div>
+            )
+          })
+          }
         </div>
         <div>
-          <select name="countryID" id="countryID" size='30' onChange={e => {
-            onChanSelHandCountId(e)
-          }} >
+          <select id="countryID" size='30' onClick={e => { onChanSelHandCountId(e) }} >
             <optgroup label='Countries'>
-              <option onClick={clearAllCountries}>Clear Selection</option>
               {countries && countries?.map(e => {
                 return (
-                  <option value={e.id} key={e.id} >{e.name}</option>
+                  <option value={e.id} key={e.id} name={`${e.name}`} >{e.name}</option>
                 )
               })}
             </optgroup>
@@ -215,14 +215,15 @@ const Form = () => {
           {errors.countryID && (
             <p className="danger">{errors.countryID}</p>
           )}
-          {countryName && countryName?.map((e) => {
+          {countryName?.map(el => {
             return (
-              <div key={e.id}>
-                <p>{e.name}</p>
-                <button type='button' value={e.id} onClick={unselectCountry} >X</button>
+              <div key={el}>
+                <p>{el}</p>
+                <button type='button' value={el} onClick={unselectCountry} >X</button>
               </div>
             )
-          })}
+          })
+          }
         </div>
         <div>
           <input type="submit" value="Add activity" />

@@ -6,7 +6,7 @@ const Landing = () => {
   return (
     <div className='mainContainer'>
       <Link to='/home'>
-         HOME
+        <button type="submit">HOME</button>
       </Link>
     </div>
   )

@@ -16,7 +16,7 @@ const Countries = () => {
     } else setCurrentPage(currentPage + 10);
   };
   let prevPage = () => {
-    if (currentPage < 9) {
+    if (currentPage < 10) {
       setCurrentPage(0);
     } else {
       setCurrentPage(currentPage - 10);
@@ -35,7 +35,7 @@ const Countries = () => {
     firstPage()
   }, [countries]);
 
-
+  const pagFirstPage = countries.slice(currentPage, currentPage +9)
   const pagCountries = countries.slice(currentPage, currentPage + 10);
 
 
@@ -43,11 +43,20 @@ const Countries = () => {
     <div>
       <button onClick={firstPage} className='button' >  {'<<'}  </button>
       <button onClick={prevPage} className='button' >  {'<'}   </button>
+      <p>  {(currentPage/10)+1}  </p>
       <button onClick={nextPage} className='button' >  {'>'}   </button>
       <button onClick={lastPage} className='button' >  {'>>'}</button>
       <div className='grid' >
-        {
-          pagCountries && pagCountries?.map(e => (
+        {currentPage === 0 ? pagFirstPage && pagFirstPage?.map(e => (
+            <div key={e.id}>
+              <Country
+                id={e.id}
+                name={e.name}
+                flags={e.flags}
+                continents={e.continents} />
+            </div>
+          ))
+          :pagCountries && pagCountries?.map(e => (
             <div key={e.id}>
               <Country
                 id={e.id}
