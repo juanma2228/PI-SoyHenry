@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+section
+{
+  /* position: relative; */
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #111;
+}
+.text
+{
+  position: relative;
+  transform: skewY(345deg) translateY(-200px);
+  animation: animateColor 5s linear infinite;
+  z-index: 1;
+}
+@keyframes animateColor
+{
+  0%
+  {
+    filter: hue-rotate(0deg);
+  }
+  100%
+  {
+    filter: hue-rotate(360deg);
+  }
+}
+.text h2
+{
+  position: relative;
+  width: 100%;
+  font-size: 8em;
+  color: #fff;
+  pointer-events: none;
+  line-height: 1em;
+  white-space: nowrap;
+  text-shadow: calc(var(--x)) 100px 0 rgba(255,255,255,0.1);
+  transform: translateX(calc(0% - var(--x) * var(--i)));
+}
+.h2_1
+{
+  --i:0.5
+}
+.h2_2
+{
+  --i:1.5
+}
+.h2_3
+{
+  --i:2.5
+}
+.h2_4
+{
+  --i:2.25
+}
+.h2_5
+{
+  --i:1.25
+}
+.h2_6
+{
+  --i:0.75
+}
+.h2_7
+{
+  --i:3
+}
+.h2_8
+{
+  --i:0.35
+}
+.h2_9
+{
+  --i:0.25
+}
+.h2_10
+{
+  --i:2.35
+}
+
+.text h2 span
+{
+  color: #0f0;
+  margin: 0 10px;
+}
+.text h2 span:nth-child(even)
+{
+  color: transparent;
+  -webkit-text-stroke: 2px #fff;
+}
+
+.btnNeon
+{
+  position: relative;
+  display: inline;
+  left: 45%;
+  padding: 15px 30px;
+  color: #fff;
+  letter-spacing: 4px;
+  font-size: 24px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: 0.2s;
+}
+.btnNeon:hover
+{
+  background: #a945c7;
+  box-shadow: 0 0 10px #a945c7, 0 0 40px #a945c7, 0 0 80px #a945c7;
+  transition-delay: 1s;
+}
+.btnNeon span
+{
+  position: absolute;
+  display: block;
+}
+.span1
+{
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg,transparent,#a945c7);
+}
+.btnNeon:hover .span1
+{
+  left: 100%;
+  transition: 1s;
+}
+.span3
+{
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(270deg,transparent,#a945c7);
+}
+.btnNeon:hover .span3
+{
+  right: 100%;
+  transition: 1s;
+  transition-delay: 0.5s;
+}
+.span4
+{
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg,transparent,#a945c7);
+}
+.btnNeon:hover .span4
+{
+  bottom: 100%;
+  transition: 1s;
+  transition-delay: 0.75s;
+}
+.span2
+{
+  top: -100%;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg,transparent,#a945c7);
+}
+.btnNeon:hover .span2
+{
+  top: 100%;
+  transition: 1s;
+  transition-delay: 0.25s;
+}

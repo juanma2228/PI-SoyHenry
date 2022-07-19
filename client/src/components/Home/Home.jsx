@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCountries, getCountry } from '../../redux/actions/actions.js'
+import { getAllActivities, getAllCountries, getCountry } from '../../redux/actions/actions.js'
 import { useEffect } from 'react';
 import Countries from '../Countries/Countries'
 
@@ -13,6 +13,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getAllCountries())
     dispatch(getCountry(searchCountry))
+    dispatch(getAllActivities())
   }, [searchCountry,dispatch])
 
   return (

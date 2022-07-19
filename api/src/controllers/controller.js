@@ -7,10 +7,10 @@ __GET /countries__:
 - Obtener un listado de los paises. 
 */
 
-async function getCountryByName (req,res,next) {
+async function getCountryByName(req, res, next) {
   const { name } = req.query
   try {
-    if (!name){
+    if (!name) {
       const countries = await Country.findAll({
         include: Activity
       })
@@ -23,9 +23,9 @@ async function getCountryByName (req,res,next) {
           }
         },
         include: Activity
-    })
-      if (await getCountry.length > 0){
-  
+      })
+      if (await getCountry.length > 0) {
+
         res.json(getCountry)
       } else console.log('Name doesn\'t match with any country in the Data Base');
     }
@@ -59,9 +59,9 @@ async function getCountryById(req, res, next) {
   - Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
   - Si no existe ningún país mostrar un mensaje adecuado */
 
-async function postActivity(req,res,next) {
+async function postActivity(req, res, next) {
 
-  const {name, difficulty, duration, season, countryID} = req.body;
+  const { name, difficulty, duration, season, countryID } = req.body;
 
   const valdidateAct = await Activity.findOne({
     where: {
@@ -79,7 +79,7 @@ async function postActivity(req,res,next) {
 
     const activity = await newActivity.addCountry(countryID);
 
-  return res.json(activity);
+    return res.json(activity);
   }
 
   const activity = await valdidateAct.addCountry(countryID);
@@ -87,8 +87,38 @@ async function postActivity(req,res,next) {
   res.json(activity);
 }
 
+async function getActivities(req, res, next) {
+  try {
+    const activities = await Activity.findAll({
+      include: Country
+    })
+    const countFilt = await activities.flatMap(e => e.countries).map(e => {
+      return {
+        name: e.name,
+        activityId: e.countryXactivity.activityId
+      }
+    })
+    const activitiesAndCountries = countFilt.map(e => {
+      for (let i = 0; i < activities.length; i++) {
+        let activity = []
+        let countries = []
+        if (e.activityId === activities[i].id) {
+          countries.push(e.name)
+          activity.push(activities[i].name)
+          return activity.concat(countries) 
+        }
+      }
+    })
+
+    res.json(activitiesAndCountries)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   getCountryById,
   getCountryByName,
-  postActivity
+  postActivity,
+  getActivities
 }

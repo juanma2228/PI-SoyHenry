@@ -12,11 +12,11 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path='/' component={Landing} />
-        <Route exact path='/form' component={Form} />  
         <>
         <Nav component={Nav} />
         <Route exact path='/home' component={Home} />
         <Route exact path='/home/:id' component={Details} />
+        <Route exact path='/form' component={Form} />  
         </>
       </Switch>
     </BrowserRouter>

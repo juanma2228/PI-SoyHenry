@@ -1,0 +1,22 @@
+.grid ul
+{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+  list-style: none;
+  margin-top: 100px;
+}
+.filters ul
+{
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  position: relative;
+  list-style: none;
+  margin-top: 20px;
+}
+.filters ul li
+{
+  margin: 0 10px 0 10px;
+}

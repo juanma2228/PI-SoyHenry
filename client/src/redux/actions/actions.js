@@ -2,7 +2,14 @@ import {
   GET_ALL_COUNTRIES,
   GET_COUNTRY,
   GET_COUNTRY_BY_ID,
-  SET_SEARCH_COUNTRY
+  SET_SEARCH_COUNTRY,
+  ORD_CONTINENT,
+  ORD_POP_REV,
+  ORD_POP,
+  ORD_ALPHA_REV,
+  ORD_ALPHA,
+  SHOW_ACTIV,
+  GET_ALL_ACTIVITIES
 } from '../actions-types/actionsTypes';
 import axios from 'axios';
 
@@ -66,3 +73,51 @@ export function setSearch(value) {
     }
   }
 }
+
+export function orderAlpha() {
+  return {
+    type: ORD_ALPHA,
+  };
+}
+
+export function orderAlphaRev() {
+  return {
+    type: ORD_ALPHA_REV,
+  };
+}
+
+export function orderPop() {
+  return {
+    type: ORD_POP,
+  };
+}
+
+export function orderPopRev() {
+  return {
+    type: ORD_POP_REV,
+  };
+}
+
+export const orderCont = (payload) => {
+  return {
+    type: ORD_CONTINENT,
+    payload,
+  };
+};
+
+export function getAllActivities() {
+  return (dispatch) => {
+    return axios('http://localhost:3001/activities/')
+      .then(res => dispatch({
+        type: GET_ALL_ACTIVITIES,
+        payload: res.data
+      }))
+  }
+};
+
+export const showActiv = (payload) => {
+  return {
+    type: SHOW_ACTIV,
+    payload,
+  };
+};

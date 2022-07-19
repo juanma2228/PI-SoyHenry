@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import validate from './validates.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createActivity, getAllCountries } from '../../redux/actions/actions.js';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -9,6 +10,7 @@ const Form = () => {
 
   const countries = useSelector(state => state.countries)
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getAllCountries())
@@ -52,7 +54,7 @@ const Form = () => {
   const matchIdCountry = (value) => {
     countries?.map(c => {
       if (c.id === value) {
-        setCountryName([
+        return setCountryName([
           ...countryName,
           c.name
         ])
@@ -107,7 +109,6 @@ const Form = () => {
       season: input.season.filter(s => s !== e.target.value)
     })
   }
-  let formSubmited = document.getElementById("form")
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -123,22 +124,17 @@ const Form = () => {
     if (form) {
       dispatch(createActivity(input))
         .then(() => {
-          formSubmited.reset();
           setCountryName([]);
           setInput({
             season:[]
           })
+          history.push('/home')
         })
       alert("Activity added")
     } else {
       return alert("Please fill all the fields before creating a new activity");
     }
   };
-  useEffect(() => {
-
-  }, [formSubmited])
-
-
 
 
 
