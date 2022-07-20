@@ -10,64 +10,65 @@ import style from './nav.module.css';
 
 const Nav = () => {
 
-  const searchCountry = useSelector(state => state.searchCountry)
   const dispatch = useDispatch()
-  const [input, setInput] = useState({name: ''});
   const history = useHistory();
+  const countries = useSelector(state => state.countries)
+  const searchCountry = useSelector(state => state.searchCountry)
 
 
-  const onChangeHandler = (e) => {
-    e.preventDefault()
-
-    setInput({
-      ...input,
-      name: e.target.value
-    })
-  }
-
-  const submitHandler =  (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    // let form = document.getElementById('form')
+    
+    const input = document.getElementById("inputSearch").value;
     const onlyLetters = /^[a-zA-Z\s]*$/
-    if (input.name) {
-      if (onlyLetters.test(input.name)) {
-         dispatch(setSearch(input.name))
-         dispatch(getCountry(searchCountry))
-        history.push(`/home`)
-        setInput({name:''});
-        // form.reset()
-      } 
-      else {
-        alert('Only letters!!')
+    const countriesNames = countries.map(e => e.name).some(el => el.toLowerCase().includes(input.toLowerCase()))
+    history.push(`/home`)
+    
+    
+    if (onlyLetters.test(input)) {
+      
+      if (countriesNames) {
+        
         history.push('/home')
-        setInput({name:''});
+        dispatch(setSearch(input))
+        dispatch(getCountry(searchCountry))
+        document.getElementById("inputSearch").value = ''
+
       }
-    } 
-    else {
-      dispatch(getAllCountries())
+      else {
+        history.push('/home')
+        alert('Country not found')
+        document.getElementById("inputSearch").value = ''
+      }
     }
+    else {
+      console.log('Only letters!!');
+      history.push('/home')
+      alert('Only letters!!')
+      document.getElementById("inputSearch").value = ''
+    }
+
   }
 
   return (
     <>
       <div className={style.topnav} >
-            <a  href='/home' className={style.link} onClick={() => dispatch(getAllCountries())}>
-            HOME
-            </a>
-          <a href='/form' className={style.link}>
+        <a href='/home' className={style.link} onClick={() => dispatch(getAllCountries())}>
+          HOME
+        </a>
+        <a href='/form' className={style.link}>
           CREATE ACTIVITY
-          </a>
-          <Link to='/' className={style.link}>
+        </a>
+        <Link to='/' className={style.link}>
           EXIT
-          </Link>
-            <form className={style.searchbar} id='form' onSubmit={(e) => submitHandler(e)}>
-              <input type='search'
-                id='inputSearch'
-                placeholder='Search Country'
-                autoComplete="off"
-                value={input.name}
-                onChange={(e) => onChangeHandler(e)} />
-            </form>
+        </Link>
+        <form className={style.searchbar} id='form' onSubmit={(e) => submitHandler(e)}>
+          <input type='search'
+            id='inputSearch'
+            placeholder='Search Country'
+            autoComplete="off"
+          />
+        </form>
       </div>
     </>
   )

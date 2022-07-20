@@ -116,8 +116,14 @@ const Form = () => {
 
     if (input["name"].length < 2) {
       form = false;
-    } else if (!input["countryID"].length >= 1) {
+      alert('Name must have at least two characteres')
+    }
+    if (input["countryID"].length <= 1) {
       form = false;
+      alert('Must select at least one country')
+    }
+    if (errors.length > 0) {
+      form = false
     }
 
     if (form) {
@@ -127,17 +133,19 @@ const Form = () => {
           setInput({
             season:[]
           })
+          setErrors({})
           history.push('/home')
         })
       alert("Activity added")
     } else {
-      return alert("Please fill all the fields before creating a new activity");
+      return alert("Form with errors!!!!");
     }
   };
   
 
   return (
     <div>
+      {console.log(errors)}
       <form onSubmit={e => submitForm(e)} id="form" >
         <div className='inputName'>
           <label>Enter a Name: </label>

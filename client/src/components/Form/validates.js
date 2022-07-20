@@ -2,8 +2,8 @@ export default function validate(input) {
 
   let errors = {};
 
-  const regExOnlyLet = /^[a-zñA-ZÑ\s]*$/;
-  const regExOnlyNum = /^[0-9]+$/;
+  const regExOnlyLet = /^[a-zñA-ZÑ\s]{2,255}$/;
+  const regExOnlyNum = /^[0-9]{1,5}$/;
 
 
   if (!input.name) {
