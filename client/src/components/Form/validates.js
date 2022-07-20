@@ -2,12 +2,17 @@ export default function validate(input) {
 
   let errors = {};
 
-  const regExOnlyLet = /^[a-zA-Z\s]*$/;
+  const regExOnlyLet = /^[a-zñA-ZÑ\s]*$/;
   const regExOnlyNum = /^[0-9]+$/;
+
 
   if (!input.name) {
     errors.name = 'Name is required';
   } else if (!regExOnlyLet.test(input.name)) {
+    errors.name = 'Name is invalid';
+  } else if (input.name.startsWith(' ')) {
+    errors.name = 'Name is invalid';
+  } else if (input.name.endsWith(' ')) {
     errors.name = 'Name is invalid';
   }
   if (!input.duration) {

@@ -6,7 +6,8 @@ async function countriesToDb() {
   try {
     let response = (await axios(API_URL)).data
     let countries = await response?.map(e => {
-      if (e.capital && e.cca3 && e.name.common && e.flags[1] && e.region) {
+      if (e.cca3 && e.name.common && e.flags[1] && e.region) {
+        e.capital === undefined ? e.capital=['No capital']: e.capital
         return {
           id: e.cca3,
           name: e.name.common,

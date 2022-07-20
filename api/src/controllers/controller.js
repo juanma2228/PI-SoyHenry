@@ -19,7 +19,7 @@ async function getCountryByName(req, res, next) {
       const getCountry = await Country.findAll({
         where: {
           name: {
-            [Op.iLike]: `${name}%`
+            [Op.iLike]: `%${name}%`
           }
         },
         include: Activity

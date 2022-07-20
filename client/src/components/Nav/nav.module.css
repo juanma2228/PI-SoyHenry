@@ -26,7 +26,7 @@
 }
 
 
-.topnav input[type=text] {
+.topnav input[type=search] {
   float: right;
   padding: 6px;
   border: none;

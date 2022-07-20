@@ -23,8 +23,10 @@ const Countries = () => {
 
   let nextPage = () => {
     if (countries.length <= currentPage + 10) {
-      setCurrentPage(currentPage);
-    } else setCurrentPage(currentPage + 10);
+      return
+    }
+    if (currentPage === 0) setCurrentPage(9)
+    else setCurrentPage(currentPage + 10);
   };
   let prevPage = () => {
     if (currentPage < 10) {
@@ -39,13 +41,15 @@ const Countries = () => {
   };
 
   const lastPage = () => {
-    if (countries.length >= 5)//sacar para arreglar
-      setCurrentPage(countries.length - 5);
+    if (countries.length >= 1)
+      setCurrentPage(countries.length - 1);
   };
 
-
+   
   const pagFirstPage = countries.slice(currentPage, currentPage + 9);
-  const pagCountries = countries.slice(currentPage, currentPage + 10);
+  let pagCountries = 0;
+  currentPage < 10 ? pagCountries = countries.slice(pagFirstPage.length, currentPage + 10) 
+  : pagCountries = countries.slice(currentPage, currentPage + 10)
 
   const dispatch = useDispatch();
 
@@ -71,6 +75,7 @@ const Countries = () => {
 
   const onClickHandleCont = (e) => {
     e.preventDefault()
+    
     switch (e.target.value) {
       case 'all': dispatch(getAllCountries());
         break;
@@ -103,10 +108,7 @@ const Countries = () => {
         break;
     }
   }
-  /* const countXAct = countries?.filter(e => e.activities.length > 0);
-  const actFlat = countXAct?.flatMap(e => e.activities.slice(''))
-  const actMap = actFlat?.flatMap(e => e.name );
-  const actSeted = [...new Set(actMap)] */
+
 
   const actFlat = activities?.flatMap(e => e[0])
   const actSeted = [...new Set(actFlat)]
@@ -121,16 +123,27 @@ const Countries = () => {
       dispatch(showActiv(payload))
       setFilter(false)
     } else {
-      dispatch(getAllCountries())
-        .then(() => dispatch(showActiv(payload)))
+      dispatch(showActiv(payload))
+      /* dispatch(getAllCountries())
+        .then(() => dispatch(showActiv(payload))) */
     }
   }
+  
+  const onClickReset = () => {
+    var options = document.getElementsByName("select")
+    
+    for (var i = 0, l = options.length; i < l; i++) {
+      options[i].selectedIndex = 0;
+    }
 
-  const onClickReset = (e) => {
-    e.preventDefault()
     dispatch(getAllCountries())
   }
 
+  const [open, setOpen] = useState(false)
+
+  function handleOpen() {
+    setOpen(!open)
+  }
 
   useEffect(() => {
     firstPage()
@@ -139,53 +152,69 @@ const Countries = () => {
 
   return (
     <div>
-      {console.log(filter)}
-
-      <button onClick={firstPage} className='button' >  {'<<'}  </button>
-      <button onClick={prevPage} className='button' >  {'<'}   </button>
-      <p>  {Math.ceil(currentPage / 10) + 1}  </p>
-      <button onClick={nextPage} className='button' >  {'>'}   </button>
-      <button onClick={lastPage} className='button' >  {'>>'}</button>
-
       <div className={style.filters} >
-        <ul id='filters' >
-          <li>
-            <p>Sort By</p>
-            <select name="sortby" id="sortby" size='5' onClick={e => onClickHandleSort(e)}>
-              <option value="all">All</option>
-              <option value="a-z">A-Z</option>
-              <option value="z-a">Z-A</option>
-              <option value="↑ population">↑ population</option>
-              <option value="↓ population">↓ population</option>
-            </select>
-          </li>
-          <li>
-            <p>Filter by Continent</p>
-            <select size='6' onClick={(e) => onClickHandleCont(e)}>
-              <option value="all">All</option>
-              <option value="Americas">Americas</option>
-              <option value="Europe">Europe</option>
-              <option value="Africa">Africa</option>
-              <option value="Oceania">Oceania</option>
-              <option value="Asia">Asia</option>
-            </select>
-          </li>
-          <li>
-            <p>Tourism Activities</p>
-            <select id='select' onChange={e => onClickHandleAct(e)}>
-              {actSeted && actSeted?.map(e => {
-                return (
-                  <option key={e} value={e} >{e}</option>
-                )
-              })
-              }
-            </select>
-          <button type='reset' onClick={e => onClickReset(e)} >Reset</button>
-          </li>
+        <ul className={style.ulContainerFilt} id='filters' >
+          <div className={style.containerFilt1}>
+            <button className={style.buttonReset} type='button' value='Reset' onClick={onClickReset} >Reset</button>
+            <li>
+              <p>Sort By</p>
+              <div className={style.selectFilters}>
+                <select name='select' id='select' onClick={e => onClickHandleSort(e)}>
+                  <option value='0' selected disabled>Sort By</option>
+                  <option value="all">All</option>
+                  <option value="a-z">A-Z</option>
+                  <option value="z-a">Z-A</option>
+                  <option value="↑ population">↑ population</option>
+                  <option value="↓ population">↓ population</option>
+                </select>
+              </div>
+            </li>
+          </div>
+
+          <div className={style.hideFilter} >
+            <li>
+              <button className={style.btnFilters} onClick={handleOpen}>Filtros</button>
+            </li>
+            {open &&
+              <div className={style.containerHidFilt1}>
+                <div className={style.containerHidFilt2}>
+                  <li>
+                    <p>Filter by Continent</p>
+                    <div className={style.selectFilters}>
+                      <select name='select' id='select' onClick={(e) => onClickHandleCont(e)}>
+                        <option value='0' selected disabled>Filter By Continent</option>
+                        <option value="all">All</option>
+                        <option value="Americas">Americas</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Oceania">Oceania</option>
+                        <option value="Asia">Asia</option>
+                      </select>
+                    </div>
+                  </li>
+
+                  <li>
+                    <p>Tourism Activities</p>
+                    <div className={style.selectFilters}>
+                      <select name='select' id='select' onChange={e => onClickHandleAct(e)}>
+                        <option value='0' selected disabled>Filter By Activities</option>
+                        {actSeted && actSeted?.map(e => {
+                          return (
+                            <option key={e} value={e} >{e}</option>
+                          )
+                        })
+                        }
+                      </select>
+                    </div>
+                  </li>
+                </div>
+              </div>
+            }
+          </div>
+
+
         </ul>
-
       </div>
-
 
       <div className={style.grid} >
         <ul>
@@ -210,6 +239,14 @@ const Countries = () => {
           }
         </ul>
       </div>
+      <div className={style.pagin1}>
+        <button onClick={firstPage} className={style.pagBtn} > &laquo; First Page </button>
+        <button onClick={prevPage} className={style.pagBtn} >  &lsaquo; Previous   </button>
+        <span className={style.pPag}>  {Math.ceil(currentPage / 10) + 1}  </span>
+        <button onClick={nextPage} className={style.pagBtn} >Next Page &rsaquo;</button>
+        <button onClick={lastPage} className={style.pagBtn} >Last Page &raquo;</button>
+      </div>
+
     </div>
   )
 };

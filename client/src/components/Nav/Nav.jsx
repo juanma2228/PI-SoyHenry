@@ -25,14 +25,14 @@ const Nav = () => {
     })
   }
 
-  const submitHandler = async (e) => {
+  const submitHandler =  (e) => {
     e.preventDefault();
     // let form = document.getElementById('form')
     const onlyLetters = /^[a-zA-Z\s]*$/
     if (input.name) {
       if (onlyLetters.test(input.name)) {
-        await dispatch(setSearch(input.name))
-        await dispatch(getCountry(searchCountry))
+         dispatch(setSearch(input.name))
+         dispatch(getCountry(searchCountry))
         history.push(`/home`)
         setInput({name:''});
         // form.reset()
@@ -61,7 +61,7 @@ const Nav = () => {
           EXIT
           </Link>
             <form className={style.searchbar} id='form' onSubmit={(e) => submitHandler(e)}>
-              <input type='text'
+              <input type='search'
                 id='inputSearch'
                 placeholder='Search Country'
                 autoComplete="off"

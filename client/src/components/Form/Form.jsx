@@ -32,17 +32,16 @@ const Form = () => {
     countryID: 'Country is required'
   });
 
-
+  
   const onChangeHandler = function (e) {
     e.preventDefault()
-
     let validatedErrors = validate({
       ...input,
       [e.target.name]: e.target.value,
     });
 
     setErrors(validatedErrors);
-
+    
     setInput({
       ...input,
       [e.target.name]: e.target.value
@@ -62,7 +61,7 @@ const Form = () => {
     })
   }
 
-  const onChanSelHandCountId = (e) => {
+  const onChangeCountry = (e) => {
     e.preventDefault()
 
     if (input.countryID.includes(e.target.value) || !e.target.value) return
@@ -135,8 +134,7 @@ const Form = () => {
       return alert("Please fill all the fields before creating a new activity");
     }
   };
-
-
+  
 
   return (
     <div>
@@ -199,7 +197,7 @@ const Form = () => {
           }
         </div>
         <div>
-          <select id="countryID" size='30' onClick={e => { onChanSelHandCountId(e) }} >
+          <select id="countryID" size='30' onClick={e => { onChangeCountry(e) }} >
             <optgroup label='Countries'>
               {countries && countries?.map(e => {
                 return (
@@ -211,15 +209,16 @@ const Form = () => {
           {errors.countryID && (
             <p className="danger">{errors.countryID}</p>
           )}
+          <div>
           {countryName?.map(el => {
             return (
               <div key={el}>
-                <p>{el}</p>
-                <button type='button' value={el} onClick={unselectCountry} >X</button>
+                <button type='button' value={el} onClick={unselectCountry} >{el} &#10008;</button>
               </div>
             )
           })
           }
+          </div>
         </div>
         <div>
           <input type="submit" value="Add activity" />
