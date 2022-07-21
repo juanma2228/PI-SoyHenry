@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllActivities, getAllCountries, getCountry } from '../../redux/actions/actions.js'
 import { useEffect } from 'react';
 import Countries from '../Countries/Countries'
+import style from './home.module.css';
 
 const Home = () => {
   
@@ -17,7 +18,7 @@ const Home = () => {
   }, [searchCountry,dispatch])
 
   return (
-    <div>
+    <div className={style.containerCards}>
         <Countries />
     </div>
   )

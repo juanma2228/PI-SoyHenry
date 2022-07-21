@@ -22,14 +22,13 @@ export default function validate(input) {
   }
   if (!input.difficulty) {
     errors.difficulty = 'Difficulty is required';
-  } /* else if (!regExOnlyNum.test(input.difficulty)) {
-    errors.difficulty = 'Difficulty is invalid';
-  } */
+  }
+  if (!input.season) {
+    errors.season = 'Season is required';
+  } 
   if (!input.countryID) {
     errors.countryID = 'Country is required';
-  } /* else if (!regExOnlyLet.test(input.season)) {
-    errors.season = 'Season is invalid';
-  } */
-
+  }
+  
   return errors;
 };

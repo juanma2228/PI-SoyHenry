@@ -53,7 +53,7 @@ const Nav = () => {
   return (
     <>
       <div className={style.topnav} >
-        <a href='/home' className={style.link} onClick={() => dispatch(getAllCountries())}>
+        <a  href='/home' className={style.link} onClick={() => dispatch(getAllCountries())}>
           HOME
         </a>
         <a href='/form' className={style.link}>

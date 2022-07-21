@@ -3,7 +3,7 @@ import validate from './validates.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createActivity, getAllCountries } from '../../redux/actions/actions.js';
 import { useHistory } from 'react-router-dom';
-
+import s from './form.module.css';
 
 
 const Form = () => {
@@ -32,7 +32,7 @@ const Form = () => {
     countryID: 'Country is required'
   });
 
-  
+
   const onChangeHandler = function (e) {
     e.preventDefault()
     let validatedErrors = validate({
@@ -41,7 +41,7 @@ const Form = () => {
     });
 
     setErrors(validatedErrors);
-    
+
     setInput({
       ...input,
       [e.target.name]: e.target.value
@@ -63,6 +63,13 @@ const Form = () => {
 
   const onChangeCountry = (e) => {
     e.preventDefault()
+
+    let validatedErrors = validate({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrors(validatedErrors);
 
     if (input.countryID.includes(e.target.value) || !e.target.value) return
     console.log(e.target.value);
@@ -93,6 +100,14 @@ const Form = () => {
   }
 
   const onChangeSeason = (e) => {
+    e.preventDefault()
+
+    let validatedErrors = validate({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrors(validatedErrors);
 
     if (input.season.includes(e.target.value) || !e.target.value) return
     setInput({
@@ -131,7 +146,7 @@ const Form = () => {
         .then(() => {
           setCountryName([]);
           setInput({
-            season:[]
+            season: []
           })
           setErrors({})
           history.push('/home')
@@ -141,94 +156,118 @@ const Form = () => {
       return alert("Form with errors!!!!");
     }
   };
-  
+
 
   return (
-    <div>
-      {console.log(errors)}
+    <div className={s.container}>
       <form onSubmit={e => submitForm(e)} id="form" >
-        <div className='inputName'>
-          <label>Enter a Name: </label>
-          <input type="text"
-            name='name'
-            placeholder='Name'
-            autoComplete='off'
-            onChange={(e) => onChangeHandler(e)}
-          />
-          {errors.name && (
-            <p className="danger">{errors.name}</p>
-          )}
+        <div className={s.row}>
+          <div className={s.col_25}>
+            <label>Enter a Name: </label>
+          </div>
+          <div className={s.col_75}>
+            <input type="text"
+              name='name'
+              placeholder='Name'
+              autoComplete='off'
+              onChange={(e) => onChangeHandler(e)}
+            />
+            {errors.name && (
+              <p className="danger">{errors.name}</p>
+            )}
+          </div>
         </div>
-        <div className='inputDuration'>
-          <label>Hours requires: </label>
-          <input type="text"
-            name='duration'
-            placeholder='Duration'
-            autoComplete='off'
-            onChange={(e) => onChangeHandler(e)}
-          />
-          {errors.duration && (
-            <p className="danger">{errors.duration}</p>
-          )}
+        <div className={s.row}>
+          <div className={s.col_25}>
+            <label>Hours requires: </label>
+          </div>
+          <div className={s.col_75}>
+            <input type="text"
+              name='duration'
+              placeholder='Duration'
+              autoComplete='off'
+              onChange={(e) => onChangeHandler(e)}
+            />
+            {errors.duration && (
+              <p className="danger">{errors.duration}</p>
+            )}
+          </div>
         </div>
-        <div className='inputDifficulty'>
-          <select name="difficulty" id="difficulty" size='6' onChange={onChangeHandler}>
-            <optgroup label='Difficulty'>
+        <div className={s.row}>
+          <div className={s.col_25}>
+            <label>Difficulty: </label>
+          </div>
+          <div className={s.col_75}>
+            <select name="difficulty" id="difficulty" size='6' onChange={onChangeHandler}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </optgroup>
-          </select>
-          {errors.difficulty && (
-            <p className="danger">{errors.difficulty}</p>
-          )}
+            </select>
+            {errors.difficulty && (
+              <p className="danger">{errors.difficulty}</p>
+            )}
+          </div>
         </div>
-        <div className='inputSeason'>
-          <select name="season" id="season" size='5' onClick={(e) => onChangeSeason(e)} >
-            <optgroup label='Seasons'>
+        <div className={s.row}>
+          <div className={s.col_25}>
+            <label>Select Season: </label>
+          </div>
+          <div className={s.col_75}>
+            <select name="season" id="season" size='5' onClick={(e) => onChangeSeason(e)} >
               <option value="Summer">Summer</option>
               <option value="Autumn">Autumn</option>
               <option value="Winter">Winter</option>
               <option value="Spring">Spring</option>
-            </optgroup>
-          </select>
-          {input.season?.map(el => {
-            return (
-              <div key={el}>
-                <p>{el}</p>
-                <button type='button' value={el} onClick={(e) => unselectSeason(e)} >X</button>
-              </div>
-            )
-          })
-          }
+            </select>
+            <div className={s.errors}>
+              {errors.season && (
+                <span className="danger">{errors.season}</span>
+              )}
+            </div>
+            <div className={s.cont_btn_addC}>
+              {input.season?.map(el => {
+                return (
+                  <span className={s.spn_btn_addC} key={el}>
+                    <button className={s.btn_addC} type='button' value={el} onClick={(e) => unselectSeason(e)} >{el} &#10008;</button>
+                  </span>
+                )
+              })
+              }
+            </div>
+          </div>
         </div>
-        <div>
-          <select id="countryID" size='30' onClick={e => { onChangeCountry(e) }} >
-            <optgroup label='Countries'>
+        <div className={s.row}>
+          <div className={s.col_25}>
+            <label>Add Countries: </label>
+          </div>
+          <div className={s.col_75}>
+            <select id="countryID" size='8' onClick={e => { onChangeCountry(e) }} >
               {countries && countries?.map(e => {
                 return (
                   <option value={e.id} key={e.id} name={`${e.name}`} >{e.name}</option>
                 )
               })}
-            </optgroup>
-          </select>
-          {errors.countryID && (
-            <p className="danger">{errors.countryID}</p>
-          )}
-          <div>
-          {countryName?.map(el => {
-            return (
-              <div key={el}>
-                <button type='button' value={el} onClick={unselectCountry} >{el} &#10008;</button>
-              </div>
-            )
-          })
-          }
+            </select>
+            <div className={s.errors}>
+              {errors.countryID && (
+                <span className="danger">{errors.countryID}</span>
+              )}
+            </div>
+            <div className={s.cont_btn_addC}>
+              {countryName?.map(el => {
+                return (
+                  <span className={s.spn_btn_addC} key={el}>
+                    <button className={s.btn_addC} type='button' value={el} onClick={unselectCountry} >{el} &#10008;</button>
+                  </span>
+                )
+              })
+              }
+            </div>
           </div>
         </div>
-        <div>
+        <div className={s.row}>
           <input type="submit" value="Add activity" />
         </div>
       </form>

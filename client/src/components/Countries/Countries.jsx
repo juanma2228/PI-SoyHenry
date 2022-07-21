@@ -221,12 +221,12 @@ const Countries = () => {
               <p>Sort By</p>
               <div className={style.selectFilters}>
                 <select name='select' id='selectSort' onClick={e => onClickHandleSort(e)}>
-                  <option value='0' selected disabled>Sort By</option>
-                  <option value="all">All</option>
-                  <option value="a-z">A-Z</option>
-                  <option value="z-a">Z-A</option>
-                  <option value="↑ population">↑ population</option>
-                  <option value="↓ population">↓ population</option>
+                  <option className={style.optionFilters} value='0' selected disabled>Sort By</option>
+                  <option className={style.optionFilters} value="all">All</option>
+                  <option className={style.optionFilters} value="a-z">A-Z</option>
+                  <option className={style.optionFilters} value="z-a">Z-A</option>
+                  <option className={style.optionFilters} value="↑ population">↑ population</option>
+                  <option className={style.optionFilters} value="↓ population">↓ population</option>
                 </select>
               </div>
             </li>

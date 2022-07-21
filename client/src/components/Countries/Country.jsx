@@ -9,9 +9,9 @@ const Country = ({ id, name, flags, continents }) => {
         <div className={style.card} >
           <div className={style.flags} >
             <img src={flags} alt={name} />
-            <h2>{name}</h2>
           </div>
           <div className={style.content} >
+            <h2>{name}</h2>
             <p>{continents}</p>
           </div>
         </div>
