@@ -8,7 +8,8 @@ import {
   orderPop,
   orderPopRev,
   orderCont,
-  showActiv
+  showActiv,
+  getCountry
 } from '../../redux/actions/actions.js';
 import style from './countries.module.css';
 
@@ -17,6 +18,7 @@ const Countries = () => {
 
   const countries = useSelector(state => state.countries);
   const activities = useSelector(state => state.activities);
+  const searchCountry = useSelector(state => state.searchCountry)
 
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -45,13 +47,22 @@ const Countries = () => {
       setCurrentPage(countries.length - 1);
   };
 
-   
+
   const pagFirstPage = countries.slice(currentPage, currentPage + 9);
   let pagCountries = 0;
-  currentPage < 10 ? pagCountries = countries.slice(pagFirstPage.length, currentPage + 10) 
-  : pagCountries = countries.slice(currentPage, currentPage + 10)
+  currentPage < 10 ? pagCountries = countries.slice(pagFirstPage.length, currentPage + 10)
+    : pagCountries = countries.slice(currentPage, currentPage + 10)
 
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false)
+  const [filter, setFilter] = useState(false)
+  const actFlat = activities?.flatMap(e => e[0])
+  const actSeted = [...new Set(actFlat)]
+
+
+  function handleOpen() {
+    setOpen(!open)
+  }
 
   const onClickHandleSort = (e) => {
     e.preventDefault()
@@ -66,83 +77,130 @@ const Countries = () => {
         break;
       case '↓ population': dispatch(orderPopRev())
         break;
-      default: dispatch(getAllCountries());
-        break;
     }
   }
-
-  const [filter, setFilter] = useState(false)
 
   const onClickHandleCont = (e) => {
     e.preventDefault()
-    
+
     switch (e.target.value) {
-      case 'all': dispatch(getAllCountries());
-        break;
+      case 'all':
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => setFilter(true))
+        };
       case 'Americas':
-        dispatch(getAllCountries())
-          .then(() => dispatch(orderCont('Americas')))
-          .then(() => setFilter(true))
-        break;
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => dispatch(orderCont('Americas')))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => dispatch(orderCont('Americas')))
+            .then(() => setFilter(true))
+        };
       case 'Europe':
-        dispatch(getAllCountries())
-          .then(() => dispatch(orderCont('Europe')))
-          .then(() => setFilter(true))
-        break;
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => dispatch(orderCont('Europe')))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => dispatch(orderCont('Europe')))
+            .then(() => setFilter(true))
+        };
       case 'Africa':
-        dispatch(getAllCountries())
-          .then(() => dispatch(orderCont('Africa')))
-          .then(() => setFilter(true))
-        break;
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => dispatch(orderCont('Africa')))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => dispatch(orderCont('Africa')))
+            .then(() => setFilter(true))
+        };
       case 'Oceania':
-        dispatch(getAllCountries())
-          .then(() => dispatch(orderCont('Oceania')))
-          .then(() => setFilter(true))
-        break;
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => dispatch(orderCont('Oceania')))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => dispatch(orderCont('Oceania')))
+            .then(() => setFilter(true))
+        };
       case 'Asia':
-        dispatch(getAllCountries())
-          .then(() => dispatch(orderCont('Asia')))
-          .then(() => setFilter(true))
-        break;
-      default: dispatch(getAllCountries())
-        break;
+        if (searchCountry) {
+          dispatch(getCountry(searchCountry))
+            .then(() => dispatch(orderCont('Asia')))
+            .then(() => setFilter(true))
+          return
+        } else {
+          return dispatch(getAllCountries())
+            .then(() => dispatch(orderCont('Asia')))
+            .then(() => setFilter(true))
+        };
     }
   }
-
-
-  const actFlat = activities?.flatMap(e => e[0])
-  const actSeted = [...new Set(actFlat)]
 
   const onClickHandleAct = (e) => {
     e.preventDefault()
     if (!e.target.value) return
 
+    function resetCont() {
+
+      var options = document.getElementById('selectCont')
+      
+        options.selectedIndex = 0;
+      
+    }
+
     const payload = activities.flatMap(n => n[0] !== e.target.value ? [] : [n[1]])
+    console.log(countries);
 
     if (filter && countries.length > 0) {
-      dispatch(showActiv(payload))
-      setFilter(false)
+      console.log('entra a filtro');
+      if (searchCountry) {
+        console.log('entra searchCountry');
+        dispatch(getCountry(searchCountry))
+          .then(() => dispatch(showActiv(payload)))
+          .then(() => resetCont())
+      } else {
+        console.log('NO entra searchCountry');
+        dispatch(getAllCountries())
+          .then(() => dispatch(showActiv(payload)))
+          .then(() => resetCont())
+      }
     } else {
-      dispatch(showActiv(payload))
-      /* dispatch(getAllCountries())
-        .then(() => dispatch(showActiv(payload))) */
+      console.log('NO entra filter');
+      if (searchCountry) {
+        console.log('entra searchCountry');
+        dispatch(getCountry(searchCountry))
+          .then(() => dispatch(showActiv(payload)))
+      } else {
+        console.log('NO entra searchCountry');
+        dispatch(getAllCountries())
+          .then(() => dispatch(showActiv(payload)))
+      }
     }
   }
-  
+
   const onClickReset = () => {
     var options = document.getElementsByName("select")
-    
+
     for (var i = 0, l = options.length; i < l; i++) {
       options[i].selectedIndex = 0;
     }
 
     dispatch(getAllCountries())
-  }
-
-  const [open, setOpen] = useState(false)
-
-  function handleOpen() {
-    setOpen(!open)
   }
 
   useEffect(() => {
@@ -159,7 +217,7 @@ const Countries = () => {
             <li>
               <p>Sort By</p>
               <div className={style.selectFilters}>
-                <select name='select' id='select' onClick={e => onClickHandleSort(e)}>
+                <select name='select' id='selectSort' onClick={e => onClickHandleSort(e)}>
                   <option value='0' selected disabled>Sort By</option>
                   <option value="all">All</option>
                   <option value="a-z">A-Z</option>
@@ -181,7 +239,7 @@ const Countries = () => {
                   <li>
                     <p>Filter by Continent</p>
                     <div className={style.selectFilters}>
-                      <select name='select' id='select' onClick={(e) => onClickHandleCont(e)}>
+                      <select name='select' id='selectCont' onClick={(e) => onClickHandleCont(e)}>
                         <option value='0' selected disabled>Filter By Continent</option>
                         <option value="all">All</option>
                         <option value="Americas">Americas</option>
@@ -196,7 +254,7 @@ const Countries = () => {
                   <li>
                     <p>Tourism Activities</p>
                     <div className={style.selectFilters}>
-                      <select name='select' id='select' onChange={e => onClickHandleAct(e)}>
+                      <select name='select' id='selectAct' onChange={e => onClickHandleAct(e)}>
                         <option value='0' selected disabled>Filter By Activities</option>
                         {actSeted && actSeted?.map(e => {
                           return (

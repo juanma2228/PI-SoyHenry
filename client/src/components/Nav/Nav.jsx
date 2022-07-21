@@ -1,7 +1,7 @@
 /* renderiza un boton home y un search bar
 importar iconos react-icons */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { getAllCountries, getCountry, setSearch } from '../../redux/actions/actions';
@@ -23,7 +23,7 @@ const Nav = () => {
     const onlyLetters = /^[a-zA-Z\s]*$/
     const countriesNames = countries.map(e => e.name).some(el => el.toLowerCase().includes(input.toLowerCase()))
     history.push(`/home`)
-    
+
     
     if (onlyLetters.test(input)) {
       
@@ -33,16 +33,16 @@ const Nav = () => {
         dispatch(setSearch(input))
         dispatch(getCountry(searchCountry))
         document.getElementById("inputSearch").value = ''
-
       }
       else {
+
         history.push('/home')
         alert('Country not found')
         document.getElementById("inputSearch").value = ''
       }
     }
     else {
-      console.log('Only letters!!');
+
       history.push('/home')
       alert('Only letters!!')
       document.getElementById("inputSearch").value = ''
