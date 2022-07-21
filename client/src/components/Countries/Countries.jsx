@@ -43,6 +43,7 @@ const Countries = () => {
   };
 
   const lastPage = () => {
+
     if (countries.length >= 1)
       setCurrentPage(countries.length - 1);
   };
@@ -52,6 +53,8 @@ const Countries = () => {
   let pagCountries = 0;
   currentPage < 10 ? pagCountries = countries.slice(pagFirstPage.length, currentPage + 10)
     : pagCountries = countries.slice(currentPage, currentPage + 10)
+
+ 
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
@@ -273,7 +276,13 @@ const Countries = () => {
 
         </ul>
       </div>
-
+      <div className={style.pagin1}>
+        <button onClick={firstPage} className={style.pagBtn} > &laquo; First Page </button>
+        <button onClick={prevPage} className={style.pagBtn} >  &lsaquo; Previous   </button>
+        <span className={style.pPag}>{Math.ceil(currentPage / 10) + 1} / {Math.floor(countries.length / 9.6)}</span>
+        <button onClick={nextPage} className={style.pagBtn} >Next Page &rsaquo;</button>
+        <button onClick={lastPage} className={style.pagBtn} >Last Page &raquo;</button>
+      </div>
       <div className={style.grid} >
         <ul>
           {currentPage === 0 ? pagFirstPage && pagFirstPage?.map(e => (
@@ -300,7 +309,7 @@ const Countries = () => {
       <div className={style.pagin1}>
         <button onClick={firstPage} className={style.pagBtn} > &laquo; First Page </button>
         <button onClick={prevPage} className={style.pagBtn} >  &lsaquo; Previous   </button>
-        <span className={style.pPag}>  {Math.ceil(currentPage / 10) + 1}  </span>
+        <span className={style.pPag}>  {Math.ceil(currentPage / 10) + 1} / {Math.floor(countries.length / 9.6)}</span>
         <button onClick={nextPage} className={style.pagBtn} >Next Page &rsaquo;</button>
         <button onClick={lastPage} className={style.pagBtn} >Last Page &raquo;</button>
       </div>
