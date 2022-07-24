@@ -116,9 +116,26 @@ async function getActivities(req, res, next) {
   }
 }
 
+async function getCountPop(req, res, next) {
+  try {
+    const countPop = await Country.findAll({
+      where:{
+        population: {
+          [Op.gt]: 1000000,
+        },
+      }
+    })
+
+    res.json(countPop)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   getCountryById,
   getCountryByName,
   postActivity,
-  getActivities
+  getActivities,
+  getCountPop
 }
