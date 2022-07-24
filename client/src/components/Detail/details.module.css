@@ -37,4 +37,51 @@
   max-height: fit-content;
   margin: 10px;
   width: 50em;
+  background-color: #fff;
+}
+.bgImg
+{
+  margin: 0 0 10px 0;
+  background-image: url('../../images/tourims_activities.jpg');
+  height: 41%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.contActDet summary
+{
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+.contActDet li
+{
+  position: relative;
+  left: 35px;
+  list-style: none;
+  font-weight: 400;
+  font-size: 0.72em;
+  width: 95%;
+}
+.contActDet .act_Det_Title
+{
+  font-weight: 600;
+  font-size: xx-large;
+}
+.spn_title
+{
+  font-size: small;
+  font-weight: 600;
+}
+.actName
+{
+  position: relative;
+  left: 20px;
+  font-size: large;
+  font-weight: 800;
+  width: 96.85%;
+}
+.contFlag
+{
+  background-color: #fff;
 }

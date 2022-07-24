@@ -47,15 +47,16 @@ const Details = () => {
         </div>
       </div>
       <div className={s.contAct}>
-        <details>
-          <summary>Tourisc Activities</summary>
+        <div className={s.bgImg}></div>
+        <details className={s.contActDet}>
+          <summary className={s.act_Det_Title}>Tourisc Activities</summary>
           {tourAct && tourAct?.map(el => (
             <details key={el.id}>
-              <summary>{el.name}</summary>
+              <summary className={s.actName}>{el.name}</summary>
               <ul>
-                <li>Dificult: {el.difficulty}</li>
-                <li>Duration: {el.duration} hs.</li>
-                <li>Season: {el.season.join(', ')}</li>
+                <li><span className={s.spn_title}>Dificult: </span><span>{el.difficulty}</span></li>
+                <li><span className={s.spn_title}>Duration: </span><span>{el.duration} hs.</span></li>
+                <li><span className={s.spn_title}>Season: </span><span>{el.season.join(', ')}</span></li>
               </ul>
             </details>
           ))}

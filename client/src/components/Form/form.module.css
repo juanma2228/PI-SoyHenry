@@ -93,3 +93,9 @@ select::-webkit-scrollbar
   background-color: #95e4f8;
   color: rgb(57, 136, 201);
 }
+.danger
+{
+  color: red;
+  font-size: smaller;
+  font-style: italic;
+}

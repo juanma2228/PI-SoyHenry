@@ -26,7 +26,7 @@ export default function validate(input) {
   if (!input.season) {
     errors.season = 'Season is required';
   } 
-  if (!input.countryID) {
+  if (input.countryID.lenght < 1) {
     errors.countryID = 'Country is required';
   }
   

@@ -18,7 +18,7 @@ const initialState = {
   countries: [],//array todos los paises + act
   countryDetail: [],//array con los paises traidos x id. Info pais + act.
   searchCountry: '',//string con el nombre del pais buscado en el searchBar
-  activities: []
+  activities: [] //array name country + id activities
 }
 
 export default function rootReducer(state = initialState, { type, payload }) {

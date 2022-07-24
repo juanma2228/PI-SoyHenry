@@ -1,5 +1,11 @@
+body
+{
+
+  background: linear-gradient(45deg,#162244,#283868,#2d54ca, #5479e9,#85a2fa,#adbdee);
+
+}
 .containerCards
 {
   margin-left: 35px;
-  margin-right: 25px;
+  margin-right: 25px; 
 }

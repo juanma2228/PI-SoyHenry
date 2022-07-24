@@ -9,15 +9,7 @@
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
 }
-/* .country
-{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f3f3f3c5;
-  overflow: hidden;
-} */
+
 .container
 {
   position: relative;

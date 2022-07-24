@@ -167,29 +167,28 @@ const Countries = () => {
     }
 
     const payload = activities.flatMap(n => n[0] !== e.target.value ? [] : [n[1]])
-    console.log(countries);
 
     if (filter && countries.length > 0) {
-      console.log('entra a filtro');
+
       if (searchCountry) {
-        console.log('entra searchCountry');
+
         dispatch(getCountry(searchCountry))
           .then(() => dispatch(showActiv(payload)))
           .then(() => resetCont())
       } else {
-        console.log('NO entra searchCountry');
+
         dispatch(getAllCountries())
           .then(() => dispatch(showActiv(payload)))
           .then(() => resetCont())
       }
     } else {
-      console.log('NO entra filter');
+
       if (searchCountry) {
-        console.log('entra searchCountry');
+
         dispatch(getCountry(searchCountry))
           .then(() => dispatch(showActiv(payload)))
       } else {
-        console.log('NO entra searchCountry');
+
         dispatch(getAllCountries())
           .then(() => dispatch(showActiv(payload)))
       }

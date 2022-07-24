@@ -18,8 +18,10 @@ const Home = () => {
   }, [searchCountry,dispatch])
 
   return (
+    <div className={style.bgContainer}>
     <div className={style.containerCards}>
         <Countries />
+    </div>
     </div>
   )
 }

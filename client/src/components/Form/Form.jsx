@@ -8,13 +8,13 @@ import s from './form.module.css';
 
 const Form = () => {
 
-  const countries = useSelector(state => state.countries)
+  const countries = useSelector(state => state.countries);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     dispatch(getAllCountries())
-  }, [dispatch])
+  }, [dispatch]);
 
   const [input, setInput] = useState({
     name: '',
@@ -27,8 +27,9 @@ const Form = () => {
 
   const [errors, setErrors] = useState({
     name: 'Name is required',
-    duration: '',
-    difficulty: '',
+    duration: 'Duration is required',
+    difficulty: 'Difficulty is required',
+    season: 'Season is required',
     countryID: 'Country is required'
   });
 
@@ -46,7 +47,7 @@ const Form = () => {
       ...input,
       [e.target.name]: e.target.value
     });
-  }
+  };
 
   const [countryName, setCountryName] = useState([]);
 
@@ -59,7 +60,7 @@ const Form = () => {
         ])
       }
     })
-  }
+  };
 
   const onChangeCountry = (e) => {
     e.preventDefault()
@@ -72,7 +73,6 @@ const Form = () => {
     setErrors(validatedErrors);
 
     if (input.countryID.includes(e.target.value) || !e.target.value) return
-    console.log(e.target.value);
     setInput({
       ...input,
       countryID: [...input.countryID, e.target.value],
@@ -80,7 +80,7 @@ const Form = () => {
 
     matchIdCountry(e.target.value)
 
-  }
+  };
 
   const unselectCountry = async (e) => {
 
@@ -97,7 +97,7 @@ const Form = () => {
       ...input,
       countryID: countFiltered,
     })
-  }
+  };
 
   const onChangeSeason = (e) => {
     e.preventDefault()
@@ -114,15 +114,16 @@ const Form = () => {
       ...input,
       season: [...input.season, e.target.value]
     })
-  }
+  };
 
   const unselectSeason = (e) => {
+    e.preventDefault()
 
     setInput({
       ...input,
       season: input.season.filter(s => s !== e.target.value)
     })
-  }
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -131,11 +132,15 @@ const Form = () => {
 
     if (input["name"].length < 2) {
       form = false;
-      alert('Name must have at least two characteres')
+      alert('Name must have at least two characteres!!')
     }
-    if (input["countryID"].length <= 1) {
+    if (input["season"].length < 1) {
       form = false;
-      alert('Must select at least one country')
+      alert('Must select at least one season!!')
+    }
+    if (input["countryID"].length < 1) {
+      form = false;
+      alert('Must select at least one country!!')
     }
     if (errors.length > 0) {
       form = false
@@ -173,7 +178,7 @@ const Form = () => {
               onChange={(e) => onChangeHandler(e)}
             />
             {errors.name && (
-              <p className="danger">{errors.name}</p>
+              <p className={s.danger}>{errors.name}</p>
             )}
           </div>
         </div>
@@ -189,7 +194,7 @@ const Form = () => {
               onChange={(e) => onChangeHandler(e)}
             />
             {errors.duration && (
-              <p className="danger">{errors.duration}</p>
+              <p className={s.danger}>{errors.duration}</p>
             )}
           </div>
         </div>
@@ -198,7 +203,7 @@ const Form = () => {
             <label>Difficulty: </label>
           </div>
           <div className={s.col_75}>
-            <select name="difficulty" id="difficulty" size='6' onChange={onChangeHandler}>
+            <select name="difficulty" id="difficulty" size='5' onChange={onChangeHandler}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -206,7 +211,7 @@ const Form = () => {
               <option value="5">5</option>
             </select>
             {errors.difficulty && (
-              <p className="danger">{errors.difficulty}</p>
+              <p className={s.danger}>{errors.difficulty}</p>
             )}
           </div>
         </div>
@@ -215,7 +220,7 @@ const Form = () => {
             <label>Select Season: </label>
           </div>
           <div className={s.col_75}>
-            <select name="season" id="season" size='5' onClick={(e) => onChangeSeason(e)} >
+            <select name="season" id="season" size='4' onChange={(e) => onChangeSeason(e)} >
               <option value="Summer">Summer</option>
               <option value="Autumn">Autumn</option>
               <option value="Winter">Winter</option>
@@ -223,7 +228,7 @@ const Form = () => {
             </select>
             <div className={s.errors}>
               {errors.season && (
-                <span className="danger">{errors.season}</span>
+                <span className={s.danger}>{errors.season}</span>
               )}
             </div>
             <div className={s.cont_btn_addC}>
@@ -243,7 +248,7 @@ const Form = () => {
             <label>Add Countries: </label>
           </div>
           <div className={s.col_75}>
-            <select id="countryID" size='8' onClick={e => { onChangeCountry(e) }} >
+            <select name='countryID' id="countryID" size='8' onClick={e => { onChangeCountry(e) }} >
               {countries && countries?.map(e => {
                 return (
                   <option value={e.id} key={e.id} name={`${e.name}`} >{e.name}</option>
@@ -252,7 +257,7 @@ const Form = () => {
             </select>
             <div className={s.errors}>
               {errors.countryID && (
-                <span className="danger">{errors.countryID}</span>
+                <span className={s.danger}>{errors.countryID}</span>
               )}
             </div>
             <div className={s.cont_btn_addC}>
