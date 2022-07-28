@@ -24,10 +24,16 @@ async function getCountryByName(req, res, next) {
         },
         include: Activity
       })
-      if (await getCountry.length > 0) {
 
         res.json(getCountry)
-      } else console.log('Name doesn\'t match with any country in the Data Base');
+
+      /* if (await getCountry.length > 0) {
+
+        res.json(getCountry)
+      } else {
+        console.log('Name doesn\'t match with any country in the Data Base')
+        res.send('Name doesn\'t match with any country in the Data Base')
+      } */
     }
   } catch (error) {
     next(error)

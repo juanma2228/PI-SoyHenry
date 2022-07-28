@@ -18,9 +18,9 @@ const Countries = () => {
 
   const countries = useSelector(state => state.countries);
   const activities = useSelector(state => state.activities);
-  const searchCountry = useSelector(state => state.searchCountry)
+  const searchCountry = useSelector(state => state.searchCountry);
 
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
 
 
   let nextPage = () => {
@@ -52,20 +52,20 @@ const Countries = () => {
   const pagFirstPage = countries.slice(currentPage, currentPage + 9);
   let pagCountries = 0;
   currentPage < 10 ? pagCountries = countries.slice(pagFirstPage.length, currentPage + 10)
-    : pagCountries = countries.slice(currentPage, currentPage + 10)
+    : pagCountries = countries.slice(currentPage, currentPage + 10);
 
  
 
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false)
-  const [filter, setFilter] = useState(false)
-  const actFlat = activities?.flatMap(e => e[0])
-  const actSeted = [...new Set(actFlat)]
+  const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const actFlat = activities?.flatMap(e => e[0]);
+  const actSeted = [...new Set(actFlat)];
 
 
   function handleOpen() {
     setOpen(!open)
-  }
+  };
 
   const onClickHandleSort = (e) => {
     e.preventDefault()
@@ -81,7 +81,7 @@ const Countries = () => {
       case '↓ population': dispatch(orderPopRev())
         break;
     }
-  }
+  };
 
   const onClickHandleCont = (e) => {
     e.preventDefault()
@@ -151,8 +151,8 @@ const Countries = () => {
             .then(() => dispatch(orderCont('Asia')))
             .then(() => setFilter(true))
         };
-    }
-  }
+    };
+  };
 
   const onClickHandleAct = (e) => {
     e.preventDefault()
@@ -208,7 +208,7 @@ const Countries = () => {
   useEffect(() => {
     firstPage()
 
-  }, [countries]);
+  }, [searchCountry,countries]);
 
   return (
     <div>

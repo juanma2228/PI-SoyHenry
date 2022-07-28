@@ -45,52 +45,40 @@ export default function rootReducer(state = initialState, { type, payload }) {
         searchCountry: payload
       };
     case ORD_ALPHA: 
-    {
       return {
         ...state,
         countries: state.countries.slice().sort(ordAlpha)
       };
-    };
     case ORD_ALPHA_REV: 
-    {
       return {
         ...state,
         countries: state.countries.slice().sort(ordAlpha).reverse()
       };
-    };
     case ORD_POP: 
-    {
       return {
         ...state,
         countries: state.countries.slice().sort(ordPop).reverse()
       };
-    };
     case ORD_POP_REV: 
-    {
       return {
         ...state,
         countries: state.countries.slice().sort(ordPop)
       };
-    };
     case ORD_CONTINENT: 
-    {
       return {
         ...state,
         countries: state.countries.filter((c) => c.continents === payload)
       };
-    };
     case GET_ALL_ACTIVITIES:
       return {
         ...state,
         activities: payload
       };
     case SHOW_ACTIV: 
-    {
       return {
         ...state,
         countries: state.countries.filter(c => payload.includes(c.name))
       };
-    };
     default: return state;
   };
 }
